@@ -1,0 +1,75 @@
+/* 基本的なページ設定 */
+body {
+    background-color: black; /* 背景を黒に */
+    color: white; /* テキストを白に */
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 画面全体の高さ */
+    overflow: hidden; /* スクロールバーを隠す */
+}
+
+/* ゲーム全体のコンテナ */
+.game-container {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* スコアボードのスタイル */
+.score-board {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 5vw;
+    max-font-size: 48px;
+}
+
+.player-score {
+    flex: 1;
+    text-align: center;
+}
+
+/* ゲームキャンバスのスタイル */
+#game-canvas {
+    background-color: black;
+    border: 2px solid white; /* 枠線を白に */
+    width: 100%;
+    height: auto;
+}
+
+/* タッチ操作ボタンのスタイル */
+.touch-controls {
+    display: none; /* デフォルトでは非表示 */
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    opacity: 0.5;
+}
+
+.touch-button {
+    width: 80px;
+    height: 80px;
+    background-color: #555;
+    border: 2px solid white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    user-select: none; /* テキスト選択を無効化 */
+    margin-bottom: 10px;
+}
+
+/* タッチデバイスでのみボタンを表示 */
+@media (hover: none) and (pointer: coarse) {
+    .touch-controls {
+        display: block;
+    }
+}

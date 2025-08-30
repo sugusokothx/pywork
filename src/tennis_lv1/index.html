@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古典的なテニスゲーム</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- スコア表示エリア -->
+    <div class="score-board">
+        <div class="player-score" id="player1-score">0</div>
+        <div class="player-score" id="player2-score">0</div>
+    </div>
+
+    <!-- ゲーム画面 -->
+    <canvas id="game-canvas" width="800" height="600"></canvas>
+
+    <!-- JavaScriptファイル -->
+    <script src="script.js"></script>
+
+    <!-- タッチ操作用のボタン -->
+    <div class="touch-controls">
+        <div class="touch-button" id="touch-up">▲</div>
+        <div class="touch-button" id="touch-down">▼</div>
+    </div>
+</body>
+</html>
