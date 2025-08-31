@@ -94,26 +94,63 @@ function resetGame() {
 function update() {
     if (!gameRunning) return;
 
+    // プレイヤーの移動
     player1.y += player1.dy;
     if (player1.y < 0) player1.y = 0;
     if (player1.y + PADDLE_HEIGHT > canvas.height) player1.y = canvas.height - PADDLE_HEIGHT;
 
-    player2.y += (ball.y - (player2.y + PADDLE_HEIGHT / 2)) * 0.1;
+    // AIの移動ロジック
+    if (ball.dx > 0) {
+        // ボールが自分に向かってくるときだけ追いかける
+        const aiSpeed = 2; // AIの最大速度をさらに低下
+        const aiTrackingSpeed = 0.06; // AIがボールを追いかける反応速度もさらに低下
 
+        let targetY = ball.y - (player2.y + PADDLE_HEIGHT / 2);
+        let movement = targetY * aiTrackingSpeed;
+
+        if (movement > aiSpeed) movement = aiSpeed;
+        if (movement < -aiSpeed) movement = -aiSpeed;
+        
+        player2.y += movement;
+    } else {
+        // ボールが相手側にあるときは、中央に戻る
+        const paddleCenter = player2.y + PADDLE_HEIGHT / 2;
+        const screenCenter = canvas.height / 2;
+        const returnSpeed = 0.04; // 中央に戻る速度
+
+        if (Math.abs(paddleCenter - screenCenter) > 5) { // 中央付近では停止
+            player2.y += (screenCenter - paddleCenter) * returnSpeed;
+        }
+    }
+
+    // ボールの移動
     ball.x += ball.dx;
     ball.y += ball.dy;
 
+    // 上下の壁との衝突判定
     if (ball.y < 0 || ball.y + BALL_SIZE > canvas.height) {
         ball.dy = -ball.dy;
     }
 
+    // パドルとの衝突判定
     if (
         (ball.dx < 0 && ball.x < player1.x + PADDLE_WIDTH && ball.y + BALL_SIZE > player1.y && ball.y < player1.y + PADDLE_HEIGHT) ||
         (ball.dx > 0 && ball.x + BALL_SIZE > player2.x && ball.y + BALL_SIZE > player2.y && ball.y < player2.y + PADDLE_HEIGHT)
     ) {
+        // X方向の速度を反転
         ball.dx = -ball.dx;
+
+        // Y方向の速度にランダムな変化を加える (-2から+2の範囲)
+        const randomFactor = (Math.random() - 0.5) * 4;
+        ball.dy += randomFactor;
+
+        // Y方向の速度が極端にならないように制限
+        const maxSpeedY = 6;
+        if (ball.dy > maxSpeedY) ball.dy = maxSpeedY;
+        if (ball.dy < -maxSpeedY) ball.dy = -maxSpeedY;
     }
 
+    // 得点判定
     if (ball.x < 0) {
         player2Score++;
         player2ScoreElem.textContent = player2Score;
