@@ -7,22 +7,30 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- スコア表示エリア -->
-    <div class="score-board">
-        <div class="player-score" id="player1-score">0</div>
-        <div class="player-score" id="player2-score">0</div>
+    <div class="game-container">
+        <!-- スコア・コントロールエリア -->
+        <div class="top-bar">
+            <div class="score-board">
+                <div class="player-score" id="player1-score">0</div>
+                <div class="player-score" id="player2-score">0</div>
+            </div>
+            <div class="game-controls">
+                <button id="start-button">開始</button>
+                <button id="stop-button">終了</button>
+            </div>
+        </div>
+
+        <!-- ゲーム画面 -->
+        <canvas id="game-canvas" width="800" height="600"></canvas>
     </div>
-
-    <!-- ゲーム画面 -->
-    <canvas id="game-canvas" width="800" height="600"></canvas>
-
-    <!-- JavaScriptファイル -->
-    <script src="script.js"></script>
 
     <!-- タッチ操作用のボタン -->
     <div class="touch-controls">
         <div class="touch-button" id="touch-up">▲</div>
         <div class="touch-button" id="touch-down">▼</div>
     </div>
+
+    <!-- JavaScriptファイル -->
+    <script src="script.js"></script>
 </body>
 </html>

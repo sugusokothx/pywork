@@ -21,14 +21,38 @@ body {
     align-items: center;
 }
 
+/* トップバー（スコアとコントロール） */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 10px;
+}
+
 /* スコアボードのスタイル */
 .score-board {
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    margin-bottom: 10px;
+    flex-grow: 1; /* スコア部分が幅を広げる */
     font-size: 5vw;
     max-font-size: 48px;
+}
+
+.game-controls button {
+    background-color: #333;
+    color: white;
+    border: 1px solid white;
+    padding: 10px 20px;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.game-controls button:hover {
+    background-color: #555;
 }
 
 .player-score {
