@@ -18,6 +18,8 @@ const PADDLE_SPEED = 8;
 
 // ゲームの状態
 let gameRunning = false;
+let gameEnded = false;
+let winner = null; // 'player1' or 'player2'
 let animationId;
 
 // プレイヤー1のパドル
@@ -71,6 +73,21 @@ function drawNet() {
 
 // --- 4. ゲームロジック ---
 
+// 勝敗表示
+function displayGameResult() {
+    ctx.font = 'bold 48px Arial';
+    ctx.fillStyle = 'white';
+    ctx.textAlign = 'center';
+    
+    if (winner === 'player1') {
+        ctx.fillText('You WIN!', canvas.width / 2, canvas.height / 2);
+    } else if (winner === 'player2') {
+        ctx.fillText('You LOSE!', canvas.width / 2, canvas.height / 2);
+    }
+    
+    ctx.textAlign = 'left';
+}
+
 // ゲームを初期状態にリセットする関数
 function resetGame() {
     // スコアをリセット
@@ -78,6 +95,10 @@ function resetGame() {
     player2Score = 0;
     player1ScoreElem.textContent = player1Score;
     player2ScoreElem.textContent = player2Score;
+    
+    // ゲーム終了状態をリセット
+    gameEnded = false;
+    winner = null;
 
     // パドルとボールの位置をリセット
     player1.y = canvas.height / 2 - PADDLE_HEIGHT / 2;
@@ -160,6 +181,19 @@ function update() {
         player1ScoreElem.textContent = player1Score;
         resetBallPosition();
     }
+    
+    // 10点先取の勝敗判定
+    if (player1Score >= 10) {
+        gameRunning = false;
+        gameEnded = true;
+        winner = 'player1';
+        cancelAnimationFrame(animationId);
+    } else if (player2Score >= 10) {
+        gameRunning = false;
+        gameEnded = true;
+        winner = 'player2';
+        cancelAnimationFrame(animationId);
+    }
 }
 
 // 得点後のボール位置リセット
@@ -178,12 +212,20 @@ function render() {
     drawRect(player1.x, player1.y, player1.width, player1.height, 'white');
     drawRect(player2.x, player2.y, player2.width, player2.height, 'white');
     drawRect(ball.x, ball.y, ball.width, ball.height, 'white');
+    
+    // ゲーム終了時は勝敗表示
+    if (gameEnded) {
+        displayGameResult();
+    }
 }
 
 function gameLoop() {
     update();
     render();
-    animationId = requestAnimationFrame(gameLoop);
+    
+    if (gameRunning && !gameEnded) {
+        animationId = requestAnimationFrame(gameLoop);
+    }
 }
 
 // --- 6. イベントリスナー ---
